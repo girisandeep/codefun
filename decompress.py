@@ -1,8 +1,8 @@
 
+
+# https://techdevguide.withgoogle.com/paths/advanced/compress-decompression#code-challenge
+
 def main():
-    # assert multiply("sandeep", 1) == "sandeep", "multiply can't handle 1"
-    # assert multiply("sandeep", 2) == "sandeepsandeep", "multiply can't handle 2"
-    # assert multiply("sandeep", 0) == "", "multiply can't handle 0"
     check("3[abc]4[ab]c", "abcabcabcababababc", "Not working for simple case.")
     check("2[3[a]b]", "aaabaaab", "Not working for 2[3[a]b].")
     check("10[a]", "aaaaaaaaaa", "Not working for 10[a].")
@@ -90,19 +90,27 @@ class Decomp:
         return text_part + number_part
 
 def check(s, exp, msg):
+    check_approach1(s, exp, msg)
+    check_approach2(s, exp, msg)
+def check_approach1(s, exp, msg):
+    d = Decomp(s)
+    result = d.consume_brackets_body()
+    if result == exp:
+        print("1: Test is successful for ", s)
+    else:
+        print("1: Failed ", s, ": Expected ", exp, " but got ", result)
+        # print(msg)
+
+
+def check_approach2(s, exp, msg):
     d = Decomp(s)
     result = d.decompress_stack()
     if result == exp:
-        print("Test is successful for ", s)
+        print("2: Test is successful for ", s)
     else:
-        print("Failed ", s, ": Expected ", exp, " but got ", result)
+        print("2: Failed ", s, ": Expected ", exp, " but got ", result)
         # print(msg)
 
-# def multiply(string, num):
-#     result = ""
-#     for i in range(num):
-#         result += string
-#     return result
 
 if __name__ == '__main__':
     main()
