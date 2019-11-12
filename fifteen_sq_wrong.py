@@ -1,3 +1,6 @@
+# https://en.wikipedia.org/wiki/15_puzzle
+# This is inefficient/wrong solution using the backtracking or depth first approach
+# It leads to the stack overflow.
 
 LEFT = (-1, 0)
 RIGHT = (1, 0)

@@ -1,3 +1,5 @@
+#https://en.wikipedia.org/wiki/15_puzzle
+
 def find_blank(mat):
     for i in range(len(mat)):
         if mat[i] == 0:
