@@ -99,7 +99,7 @@ def solve(mat):
     while queue:
         (cost, current) = heappop(queue)
         idx = current.zero_idx
-        if cost[0] == 0:
+        if current.cost == 0:
             # print("==== Found ====")
             # print_mat(current.state)
             # print("Path: ", current.path)
@@ -113,7 +113,7 @@ def solve(mat):
                 if hash(state) not in is_visited:
                     new_path = current.path + [di]
                     n = Node(state, newidx, new_path)
-                    heappush(queue, ((n.cost,len(n.path)), n))
+                    heappush(queue, ((n.cost, len(n.path)), n))
         is_visited[hash(current.state)] = True
     return []
 
