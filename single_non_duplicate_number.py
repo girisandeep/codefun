@@ -25,3 +25,5 @@ class Solution(object):
         for i in nums[1:]:
             xor = xor ^ i
         return xor
+
+        

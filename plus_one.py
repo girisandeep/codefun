@@ -18,7 +18,6 @@ Output: [4,3,2,2]
 Explanation: The array represents the integer 4321.
 
 '''
-
 class Solution(object):
     def plusOne(self, digits):
         """
@@ -32,8 +31,7 @@ class Solution(object):
                 i -= 1
             else:
                 digits[i] += 1
-            i -= 1
+                break
         if i == -1:
             digits.insert(0, 1)
         return digits
-    
