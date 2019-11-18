@@ -1,0 +1,72 @@
+'''
+Symmetric Tree
+Solution
+Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+ 
+
+But the following [1,2,2,null,3,null,3] is not:
+
+    1
+   / \
+  2   2
+   \   \
+   3    3
+ 
+
+Note:
+Bonus points if you could solve it both recursively and iteratively.
+'''
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def is_eq(self, e1, e2):
+        if e1 is None and e2 is None:
+            return True
+        elif e1 is None or e2 is None:
+            return False
+        return e1.val == e2.val
+    def issysmarr(self, arr):
+        for i in range(len(arr)/2):
+            if not self.is_eq(arr[i], arr[-i-1]):
+                return False
+        return True
+        
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        
+        queue = [(root, 0)]
+        current_level_nodes = []
+        previous_level = -1
+        for (e, level) in queue:
+            # (e, level) = queue.popleft()
+            if level != previous_level:
+                if not self.issysmarr(current_level_nodes):
+                    return False
+                current_level_nodes = []
+                previous_level = level
+            current_level_nodes.append(e)
+            if e:
+                queue.append((e.left, level+1))
+                queue.append((e.right, level+1))
+        if not self.issysmarr(current_level_nodes):
+            return False
+        return True

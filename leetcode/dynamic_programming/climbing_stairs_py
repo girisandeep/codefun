@@ -1,0 +1,164 @@
+'''
+Climbing Stairs
+Solution
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer.
+
+Example 1:
+
+Input: 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+Example 2:
+
+Input: 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+
+Hide Hint #1  
+To reach nth step, what could have been your previous steps? (Think about the step sizes)
+'''
+#Formula
+
+import math
+#Formula
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        sqrt5 = math.sqrt(5)
+        phi = (1+sqrt5)/2.0
+        chi = 1 - phi
+        res = (math.pow(phi, n+1) - math.pow(chi, n+1))/sqrt5
+
+        return int(res)
+
+    
+class Solution4(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        a = self.powphi(n+1)
+        b = self.powchi(n+1)
+        res = self.subtract(a, b)
+        return int(self.dividebyroot5(res)[0])
+    def dividebyroot5(self, a):
+        if a[0] % 5 == 0:
+            res = a[0] / 5
+            return [a[1], res]
+        print("The result is fractional.")
+        return None
+    def powphi(self, n):
+        return self.powarr([0.5, 0.5], n)
+    
+    def powchi(self, n):
+        return self.powarr( [0.5, -0.5], n)
+    
+    def powarr(self, a, n):
+        if n == 1:
+            return a
+        if n % 2 == 1:
+            res = self.powarr(a, n-1)
+            return self.multiply(a, res)
+        else:
+            sq = self.multiply(a, a)
+            return self.powarr(sq, n/2)
+    def subtract(self, a, b):
+        return (a[0]-b[0], a[1]-b[1])
+    
+    def multiply(self, a1, a2):
+        a = a1[0]
+        b = a1[1]
+        c = a2[0]
+        d = a2[1]
+        return [a*c+5*b*d, b*c+a*d]
+        
+#Binet
+class Solution3(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        a = [[1, 1], [1, 0]]
+        m = self.pow(a, n)
+        return m[0][0]
+    
+    def pow(self, a, n):
+        ret = [[1, 0], [0, 1]]
+        while n > 0:
+            if n %2 == 1:
+                ret = self.multiplysqmat(ret, a)
+                n -= 1
+            else:
+                a = self.multiplysqmat(a, a)
+                n = n / 2
+        return ret
+            
+    def multiplysqmat(self, a, b):
+        result = [[0, 0], [0, 0]]
+        for i in range(2):
+            r = a[i]
+            for j in range(2):
+                c = [b[0][j], b[1][j]]
+                result[i][j] = sum([r[0]*c[0], r[1]*c[1]])
+        return result
+
+class Solution2(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        if n <= 0:
+            return 0
+        
+        s1 = 1
+        if n == 1:
+            return s1
+        
+        s2 = 2
+        if n == 2:
+            return s2
+        
+        i = 3
+        while i <= n:
+            s = s1 + s2
+            s1 = s2
+            s2 = s
+            i += 1
+        return s2
+
+# Memorization
+class Solution1(object):
+    def climbStairs(self, n, memory={}):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 0:
+            return 0
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+        if n in memory:
+            return memory[n]
+        counts1 = self.climbStairs(n-1, memory)
+        counts2 = self.climbStairs(n-2, memory)
+        total = counts1+counts2
+        memory[n] = total
+        return total
